@@ -4,7 +4,7 @@ var lang = require('./index');
 
 var codeDir = path.join(__dirname, 'example_code');
 
-fs.readFile(path.join(codeDir, 'fizzbuzz.c'), {
+/*fs.readFile(path.join(codeDir, 'fizzbuzz.c'), {
 	encoding: 'utf8',
 }, function(err, code) {
 	if (err) throw err;
@@ -36,6 +36,15 @@ fs.readFile(path.join(codeDir, 'fizzbuzz.ooga'), {
 }, function(err, code) {
 	if (err) throw err;
 	console.log('fizzbuzz.ooga');
+	console.log(lang(code, true));
+	console.log();
+});*/
+
+fs.readFile(path.join(codeDir, 'crypt.c'), {
+	encoding: 'utf8',
+}, function(err, code) {
+	if (err) throw err;
+	console.log('crypt.c');
 	console.log(lang(code, true));
 	console.log();
 });

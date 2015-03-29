@@ -18,12 +18,11 @@ var detectLang = require('lang-detector');
 
 detectLang('var javascript = true;') // => 'JavaScript'
 
-detectLang('ooga booga', true)
-	/* =>   [ { language: 'JavaScript', points: 0   },
-			  { language: 'C',          points: 0   },
-			  { language: 'Python',     points: 0   },
-			  { language: '...',        points: ... },
-			  { language: 'Unknown',    points: 1   } ]   */
+detectLang('ooga booga', true) /* =>  { 'JavaScript': 0,
+                                        'C':        : 0,
+                                        'Python':   : 0,
+                                         ...
+                                        'Unknown':  : 1 }  */
 
 ```
 

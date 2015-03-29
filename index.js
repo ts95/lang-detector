@@ -104,7 +104,7 @@ var languages = {
 /**
  * @snippet {String} The code snippet.
  * @allResults {Boolean} (Optional) Return all results.
- * @return {String} or {Array}
+ * @return {String} or {Object}
  */
 function detect(snippet, allResults) {
 	var linesOfCode = snippet.replace(/\r\n?/g, '\n').split('\n');
@@ -125,7 +125,11 @@ function detect(snippet, allResults) {
 	});
 
 	if (allResults) {
-		return results;
+		var resultsObject = {};
+		for (var result of results) {
+			resultsObject[result.language] = result.points;
+		}
+		return resultsObject;
 	}
 
 	var bestResult = _.max(results, function(result) {
