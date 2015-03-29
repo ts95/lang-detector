@@ -73,4 +73,9 @@ describe('snippets', function() {
 		done();
 	});
 
+	it('should detect C', function(done) {
+		assert.equal('C', detectLang('int *ptr;'));
+		done();
+	})
+
 });

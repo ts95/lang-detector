@@ -46,8 +46,14 @@ var languages = {
 		{ pattern: /var( )+\w+( )*=?/, points: 2 },
 		// null keyword
 		{ pattern: /null/g, points: 1 },
+		// (else )if statement
+		{ pattern: /(else )?if( )+\(.+\)/, points: 1 },
+		// while loop
+		{ pattern: /while( )+\(.+\)/, points: 1 },
 		// C style variable declaration.
 		{ pattern: /(^|\s)(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
+		// poiner
+		{ pattern: /(\w+)( )*\*( )*\w+/, points: -1 },
 	],
 
 	'C': [
@@ -57,6 +63,8 @@ var languages = {
 		{ pattern: /malloc\(.+\)/, points: 2 },
 		// #include <whatever.h>
 		{ pattern: /#include (<|")\w+\.h(<|")/g, points: 2 },
+		// poiner
+		{ pattern: /(\w+)( )*\*( )*\w+/, points: 2 },
 		// Variable declaration and/or initialisation.
 		{ pattern: /(\w+)( )+\w+(;|( )*=)/, points: 1 },
 		// Array declaration.
@@ -65,6 +73,10 @@ var languages = {
 		{ pattern: /NULL/, points: 1 },
 		// void keyword
 		{ pattern: /void/g, points: 1 },
+		// (else )if statement
+		{ pattern: /(else )?if( )*\(.+\)/, points: 1 },
+		// while loop
+		{ pattern: /while( )+\(.+\)/, points: 1 },
 		// printf function
 		{ pattern: /printf( )*\(.+\)/, points: 1 },
 		// new Keyword from C++
@@ -129,8 +141,18 @@ var languages = {
 		{ pattern: /(^|\s)(char|long|int|float|double)( )+[\w\d]+( )*=?/, points: 1 },
 		// extends/implements keywords
 		{ pattern: /(extends|implements)/, points: 1 },
+		// null keyword
+		{ pattern: /null/g, points: 1 },
+		// (else )if statement
+		{ pattern: /(else )?if( )*\(.+\)/, points: 1 },
+		// while loop
+		{ pattern: /while( )+\(.+\)/, points: 1 },
+		// void keyword
+		{ pattern: /void/g, points: 1 },
 		// const
 		{ pattern: /const( )*\w+/, points: -1 },
+		// poiner
+		{ pattern: /(\w+)( )*\*( )*\w+/, points: -1 },
 	],
 
 	'Unknown': [],
