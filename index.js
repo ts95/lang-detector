@@ -42,22 +42,22 @@ var languages = {
 	],
 
 	'C': [
-			// Primitive variable declaration.
-			{ pattern: /^(char|long|int|float|double)( )+\w+( )*=?/, points: 2 },
-			// malloc function call
-			{ pattern: /malloc\(.+\)/, points: 2 },
-			// Variable declaration.
-			{ pattern: /^(\w+)( )+\w+( )*\(.+\)/, points: 2 },
-			// #include <whatever.h>
-			{ pattern: /#include (<|")\w+\.h(<|")/g, points: 2 },
-			// Array delcration.
-			{ pattern: /(\w+)( )+\w+\[.+\]/, points: 1 },
-			// NULL constant
-			{ pattern: /NULL/, points: 1 },
-			// void keyword
-			{ pattern: /void/g, points: 1 },
-			// new Keyword from C++
-			{ pattern: /new \w+/, points: -1 },
+		// Primitive variable declaration.
+		{ pattern: /^(char|long|int|float|double)( )+\w+( )*=?/, points: 2 },
+		// malloc function call
+		{ pattern: /malloc\(.+\)/, points: 2 },
+		// Variable declaration.
+		{ pattern: /^(\w+)( )+\w+( )*\(.+\)/, points: 2 },
+		// #include <whatever.h>
+		{ pattern: /#include (<|")\w+\.h(<|")/g, points: 2 },
+		// Array delcration.
+		{ pattern: /(\w+)( )+\w+\[.+\]/, points: 1 },
+		// NULL constant
+		{ pattern: /NULL/, points: 1 },
+		// void keyword
+		{ pattern: /void/g, points: 1 },
+		// new Keyword from C++
+		{ pattern: /new \w+/, points: -1 },
 	],
 
 	'Unknown': [],
@@ -76,10 +76,16 @@ function detect(snippet, allResults) {
 
 	var linesOfCode = snippet.replace(/\r\n?/g, '\n').split('\n');
 
-	var results = _.mapObject(languages, function(checkers, language) {
+	var pairs = _.keys(languages).map(function(key) {
+		return { language: key, checkers: languages[key] };
+	});
+
+	var results = _.map(pairs, function(pairs) {
+		var language = pairs.language;
+		var checkers = pairs.checkers;
 		return {
 			language: language,
-			points: sum(_.map(linesOfCode, function(lineOfCode) {
+			points: language === 'Unknown' ? 1 : sum(_.map(linesOfCode, function(lineOfCode) {
 				return getPoints(lineOfCode, checkers);
 			})),
 		};

@@ -15,12 +15,14 @@ Usage:
 ```JavaScript
 var detectLang = require('lang-detector');
 
-detectLang('var javascript = true;') // => { language: 'JavaScript', points: 1 }
-detectLang('ooga booga')             // => { language: 'Unknown',    points: 0 }
+detectLang('var javascript = true;')
+	// =>     { language: 'JavaScript', points: 1 }
 
-detectLang('console.log("Hello world");', true)
-	/* =>	[ { JavaScript: { language: 'JavaScript', points: 2 },
-  				Unknown:    { language: 'Unknown',    points: 0 } } ] */
+detectLang('ooga booga', true)
+	/* =>   [ { language: 'JavaScript', points: 0 },
+			  { language: 'C',          points: 0 },
+			  { language: 'Unknown',    points: 1 } ]   */
+
 ```
 
 Disclaimer: The accuracy of this library is disputable.<br>
