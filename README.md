@@ -12,9 +12,14 @@ npm install lang-detector
 
 Usage:
 ```JavaScript
-var lang = require('lang-detector');
-lang('var javascript = true;') // => { language: 'JavaScript', points: 1 }
-lang('ooga booga')             // => { language: 'Unknown', points: 0 }
+var detectLang = require('lang-detector');
+
+detectLang('var javascript = true;') // => { language: 'JavaScript', points: 1 }
+detectLang('ooga booga')             // => { language: 'Unknown', points: 0 }
+
+detectLang('console.log("Hello world");')
+	/* =>	[ { JavaScript: { language: 'JavaScript', points: 2 },
+  				Unknown: { language: 'Unknown', points: 1 } } ] */
 ```
 
 Disclaimer: The accuracy of this library is disputable.<br>
