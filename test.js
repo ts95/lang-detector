@@ -9,7 +9,7 @@ fs.readFile(path.join(codeDir, 'fizzbuzz.c'), {
 }, function(err, code) {
 	if (err) throw err;
 	console.log('fizzbuzz.c');
-	console.log(lang(code));
+	console.log(lang(code, true));
 	console.log();
 });
 
@@ -18,7 +18,16 @@ fs.readFile(path.join(codeDir, 'fizzbuzz.js'), {
 }, function(err, code) {
 	if (err) throw err;
 	console.log('fizzbuzz.js');
-	console.log(lang(code));
+	console.log(lang(code, true));
+	console.log();
+});
+
+fs.readFile(path.join(codeDir, 'fizzbuzz.py'), {
+	encoding: 'utf8',
+}, function(err, code) {
+	if (err) throw err;
+	console.log('fizzbuzz.py');
+	console.log(lang(code, true));
 	console.log();
 });
 
@@ -27,6 +36,6 @@ fs.readFile(path.join(codeDir, 'fizzbuzz.ooga'), {
 }, function(err, code) {
 	if (err) throw err;
 	console.log('fizzbuzz.ooga');
-	console.log(lang(code));
+	console.log(lang(code, true));
 	console.log();
 });

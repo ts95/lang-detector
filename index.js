@@ -21,7 +21,6 @@ function getPoints(lineOfCode, checkers) {
  * 
  * Points scale:
  * -1 if it's very unlikely
- *  0 if it's unlikely
  *  1 if it's somewhat likely
  *  2 if it's very likely
  */
@@ -30,27 +29,31 @@ var languages = {
 		// undefined keyword
 		{ pattern: /undefined/g, points: 2 },
 		// Function definition
-		{ pattern: /function( )*\((\w+,?( )*)+\)*/g, points: 2 },
+		{ pattern: /function( )*(\w+( )*)?\(.+\)/g, points: 2 },
 		// console.log('ayy lmao')
 		{ pattern: /console.log( )*\(/g, points: 2 },
 		// Variable declaration
-		{ pattern: /^var( )+\w+( )*=?/, points: 1 },
+		{ pattern: /var( )+\w+( )*=?/, points: 1 },
 		// null keyword
 		{ pattern: /null/g, points: 1 },
+		// === operator
+		{ pattern: /===/g, points: 1 },
+		// !== operator
+		{ pattern: /!==/g, points: 1 },
 		// C style variable declaration.
-		{ pattern: /^(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
+		{ pattern: /(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
 	],
 
 	'C': [
 		// Primitive variable declaration.
-		{ pattern: /^(char|long|int|float|double)( )+\w+( )*=?/, points: 2 },
+		{ pattern: /(char|long|int|float|double)( )+\w+( )*=?/, points: 2 },
 		// malloc function call
 		{ pattern: /malloc\(.+\)/, points: 2 },
-		// Variable declaration.
-		{ pattern: /^(\w+)( )+\w+( )*\(.+\)/, points: 2 },
+		// Variable declaration and/or initialisation.
+		{ pattern: /(\w+)( )+\w+(;|( )*=)/, points: 2 },
 		// #include <whatever.h>
 		{ pattern: /#include (<|")\w+\.h(<|")/g, points: 2 },
-		// Array delcration.
+		// Array declaration.
 		{ pattern: /(\w+)( )+\w+\[.+\]/, points: 1 },
 		// NULL constant
 		{ pattern: /NULL/, points: 1 },
@@ -58,6 +61,27 @@ var languages = {
 		{ pattern: /void/g, points: 1 },
 		// new Keyword from C++
 		{ pattern: /new \w+/, points: -1 },
+	],
+
+	'Python': [
+		// Function definition
+		{ pattern: /def( )+\w+( )*:/, points: 2 },
+		// while loop
+		{ pattern: /while (.+):/, points: 2 },
+		// for loop
+		{ pattern: /for (\w+|\(?\w+,( )*\w+\)?) in (.+):?/, points: 2 },
+		// from library import something
+		{ pattern: /from \w+ import (\w+|\*)/, points: 2 },
+		// pass keyword
+		{ pattern: /pass/, points: 2 },
+		// import something
+		{ pattern: /import \w+/, points: 2 },
+		// elif keyword
+		{ pattern: /elif/, points: 1 },
+		// and/or keywords/operators
+		{ pattern: /(and|or)/, points: 1 },
+		// &&/|| operators
+		{ pattern: /(&{2}|\|{2})/, points: -1 },
 	],
 
 	'Unknown': [],
@@ -69,11 +93,6 @@ var languages = {
  * @return {Object}
  */
 function detect(snippet, allResults) {
-	var maxSnippetSize = 5000;
-
-	if (snippet.length > maxSnippetSize)
-		cb(new Error('Max snippet size of 5000 was exceeded.'));
-
 	var linesOfCode = snippet.replace(/\r\n?/g, '\n').split('\n');
 
 	var pairs = _.keys(languages).map(function(key) {
@@ -99,7 +118,7 @@ function detect(snippet, allResults) {
 		return result.points;
 	});
 
-	return bestResult;
+	return bestResult.language;
 }
 
 module.exports = detect;

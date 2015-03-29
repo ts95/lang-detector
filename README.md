@@ -5,6 +5,7 @@ A library for detecting the programming language of a code snippet.
 Currently supported languages:
 * JavaScript
 * C
+* Python
 
 Install:
 ```
@@ -15,8 +16,7 @@ Usage:
 ```JavaScript
 var detectLang = require('lang-detector');
 
-detectLang('var javascript = true;')
-	// =>     { language: 'JavaScript', points: 1 }
+detectLang('var javascript = true;') // => 'JavaScript'
 
 detectLang('ooga booga', true)
 	/* =>   [ { language: 'JavaScript', points: 0 },
