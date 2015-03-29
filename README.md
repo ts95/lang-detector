@@ -4,6 +4,7 @@ A library for detecting the programming language of a code snippet.
 
 Currently supported languages:
 * JavaScript
+* C
 
 Install:
 ```
@@ -19,7 +20,7 @@ detectLang('ooga booga')             // => { language: 'Unknown',    points: 0 }
 
 detectLang('console.log("Hello world");', true)
 	/* =>	[ { JavaScript: { language: 'JavaScript', points: 2 },
-  				Unknown:    { language: 'Unknown',    points: 1 } } ] */
+  				Unknown:    { language: 'Unknown',    points: 0 } } ] */
 ```
 
 Disclaimer: The accuracy of this library is disputable.<br>

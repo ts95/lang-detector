@@ -4,7 +4,7 @@ var lang = require('./index');
 
 var codeDir = path.join(__dirname, 'example_code');
 
-fs.readFile(path.join(codeDir, 'fizzbuzz.cpp'), {
+fs.readFile(path.join(codeDir, 'fizzbuzz.c'), {
 	encoding: 'utf8',
 }, function(err, code) {
 	if (err) throw err;
