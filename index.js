@@ -59,6 +59,8 @@ var languages = {
 		{ pattern: /NULL/, points: 1 },
 		// void keyword
 		{ pattern: /void/g, points: 1 },
+		// printf function
+		{ pattern: /printf( )*\(.+\)/, points: 1 },
 		// new Keyword from C++
 		{ pattern: /new \w+/, points: -1 },
 	],
@@ -71,17 +73,29 @@ var languages = {
 		// for loop
 		{ pattern: /for (\w+|\(?\w+,( )*\w+\)?) in (.+):?/, points: 2 },
 		// from library import something
-		{ pattern: /from \w+ import (\w+|\*)/, points: 2 },
-		// pass keyword
-		{ pattern: /pass/, points: 2 },
+		{ pattern: /from [\w\.]+ import (\w+|\*)/, points: 2 },
 		// import something
 		{ pattern: /import \w+/, points: 2 },
+		// class keyword
+		{ pattern: /class( )*\w+(\(( )*\w+( )*\))?( )*:/, points: 2 },
+		// print statement/function
+		{ pattern: /print((( )*\(.+\))|( )*.+)/, points: 2 },
+		// if keyword
+		{ pattern: /if( )+(.+)( )*:/, points: 2 },
 		// elif keyword
-		{ pattern: /elif/, points: 1 },
+		{ pattern: /elif( )+(.+)( )*:/, points: 2 },
+		// else keyword
+		{ pattern: /else:/, points: 2 },
+		// pass keyword
+		{ pattern: /pass/, points: 1 },
 		// and/or keywords/operators
 		{ pattern: /(and|or)/, points: 1 },
 		// &&/|| operators
 		{ pattern: /(&{2}|\|{2})/, points: -1 },
+		// const
+		{ pattern: /const( )*\w+/, points: -1 },
+		// C style variable declaration.
+		{ pattern: /(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
 	],
 
 	'Unknown': [],
@@ -90,7 +104,7 @@ var languages = {
 /**
  * @snippet {String} The code snippet.
  * @allResults {Boolean} (Optional) Return all results.
- * @return {Object}
+ * @return {String} or {Array}
  */
 function detect(snippet, allResults) {
 	var linesOfCode = snippet.replace(/\r\n?/g, '\n').split('\n');

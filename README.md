@@ -8,7 +8,7 @@ Currently supported languages:
 * Python
 
 Install:
-```
+```Shell
 npm install lang-detector
 ```
 
@@ -19,11 +19,12 @@ var detectLang = require('lang-detector');
 detectLang('var javascript = true;') // => 'JavaScript'
 
 detectLang('ooga booga', true)
-	/* =>   [ { language: 'JavaScript', points: 0 },
-			  { language: 'C',          points: 0 },
-			  { language: 'Unknown',    points: 1 } ]   */
+	/* =>   [ { language: 'JavaScript', points: 0   },
+			  { language: 'C',          points: 0   },
+			  { language: 'Python',     points: 0   },
+			  { language: '...',        points: ... },
+			  { language: 'Unknown',    points: 1   } ]   */
 
 ```
 
-Disclaimer: The accuracy of this library is disputable.<br>
-Disclaimer #2: This project is <b>far</b> from finished. Support for more languages and better accuracy will come with time.
+Disclaimer: The accuracy of this library is disputable.
