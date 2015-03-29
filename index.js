@@ -26,9 +26,9 @@ function getPoints(lineOfCode, checkers) {
  * necessary as it would inhibit performance.
  *
  * Points scale:
- *  2 if it's very likely
- *  1 if it's somewhat likely
- * -1 if it's very unlikely
+ *  2 if the regex is very likely to match
+ *  1 if the regex is somewhat likely to match
+ * -1 if the regex is very unlikely to match
  */
 var languages = {
 	'JavaScript': [
@@ -91,7 +91,7 @@ var languages = {
 		// import something
 		{ pattern: /import ([[^\.]\w])+/, points: 1 },
 		// print statement/function
-		{ pattern: /print((( )*\(.+\))|( )*.+)/, points: 1 },
+		{ pattern: /print((( )*\(.+\))|( )+.+)/, points: 1 },
 		// pass keyword
 		{ pattern: /pass/, points: 1 },
 		// and/or keywords/operators

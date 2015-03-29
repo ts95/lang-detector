@@ -28,5 +28,6 @@ detectLang('ooga booga', true) /* =>  { 'JavaScript' : 0,
                                         'Unknown'    : 1 }  */
 
 ```
-<br>
-**Disclaimer:** The accuracy of this library is disputable.
+
+## Unit tests
+Run `npm test` in the root of the directory to run the tests.
