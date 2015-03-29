@@ -4,11 +4,12 @@ var lang = require('./index');
 
 var codeDir = path.join(__dirname, 'example_code');
 
-/*fs.readFile(path.join(codeDir, 'fizzbuzz.c'), {
+fs.readFile(path.join(codeDir, 'fizzbuzz.c'), {
 	encoding: 'utf8',
 }, function(err, code) {
 	if (err) throw err;
 	console.log('fizzbuzz.c');
+	console.log(lang(code));
 	console.log(lang(code, true));
 	console.log();
 });
@@ -18,6 +19,7 @@ fs.readFile(path.join(codeDir, 'fizzbuzz.js'), {
 }, function(err, code) {
 	if (err) throw err;
 	console.log('fizzbuzz.js');
+	console.log(lang(code));
 	console.log(lang(code, true));
 	console.log();
 });
@@ -27,6 +29,17 @@ fs.readFile(path.join(codeDir, 'fizzbuzz.py'), {
 }, function(err, code) {
 	if (err) throw err;
 	console.log('fizzbuzz.py');
+	console.log(lang(code));
+	console.log(lang(code, true));
+	console.log();
+});
+
+fs.readFile(path.join(codeDir, 'FizzBuzz.java'), {
+	encoding: 'utf8',
+}, function(err, code) {
+	if (err) throw err;
+	console.log('FizzBuzz.java');
+	console.log(lang(code));
 	console.log(lang(code, true));
 	console.log();
 });
@@ -36,6 +49,7 @@ fs.readFile(path.join(codeDir, 'fizzbuzz.ooga'), {
 }, function(err, code) {
 	if (err) throw err;
 	console.log('fizzbuzz.ooga');
+	console.log(lang(code));
 	console.log(lang(code, true));
 	console.log();
-});*/
+});

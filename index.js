@@ -16,13 +16,19 @@ function getPoints(lineOfCode, checkers) {
 }
 
 /**
+ * A checker is an object with the following form:
+ *  { pattern: /something/, points: 1 }
+ * 
  * Key: Language name.
  * Value: Array of pattern and points pairs (checkers).
  * 
+ * N.B. An array of checkers shouldn't contain more regexes than
+ * necessary as it would inhibit performance.
+ *
  * Points scale:
- * -1 if it's very unlikely
- *  1 if it's somewhat likely
  *  2 if it's very likely
+ *  1 if it's somewhat likely
+ * -1 if it's very unlikely
  */
 var languages = {
 	'JavaScript': [
@@ -32,14 +38,14 @@ var languages = {
 		{ pattern: /function( )*(\w+( )*)?\(.+\)/g, points: 2 },
 		// console.log('ayy lmao')
 		{ pattern: /console.log( )*\(/g, points: 2 },
+		// === operator
+		{ pattern: /===/g, points: 2 },
+		// !== operator
+		{ pattern: /!==/g, points: 2 },
 		// Variable declaration
 		{ pattern: /var( )+\w+( )*=?/, points: 1 },
 		// null keyword
 		{ pattern: /null/g, points: 1 },
-		// === operator
-		{ pattern: /===/g, points: 1 },
-		// !== operator
-		{ pattern: /!==/g, points: 1 },
 		// C style variable declaration.
 		{ pattern: /(^|\s)(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
 	],
@@ -74,18 +80,18 @@ var languages = {
 		{ pattern: /for (\w+|\(?\w+,( )*\w+\)?) in (.+):?/, points: 2 },
 		// from library import something
 		{ pattern: /from [\w\.]+ import (\w+|\*)/, points: 2 },
-		// import something
-		{ pattern: /import \w+/, points: 2 },
 		// class keyword
 		{ pattern: /class( )*\w+(\(( )*\w+( )*\))?( )*:/, points: 2 },
-		// print statement/function
-		{ pattern: /print((( )*\(.+\))|( )*.+)/, points: 2 },
 		// if keyword
 		{ pattern: /if( )+(.+)( )*:/, points: 2 },
 		// elif keyword
 		{ pattern: /elif( )+(.+)( )*:/, points: 2 },
 		// else keyword
 		{ pattern: /else:/, points: 2 },
+		// import something
+		{ pattern: /import ([[^\.]\w])+/, points: 1 },
+		// print statement/function
+		{ pattern: /print((( )*\(.+\))|( )*.+)/, points: 1 },
 		// pass keyword
 		{ pattern: /pass/, points: 1 },
 		// and/or keywords/operators
@@ -96,6 +102,35 @@ var languages = {
 		{ pattern: /const( )*\w+/, points: -1 },
 		// C style variable declaration.
 		{ pattern: /(^|\s)(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
+	],
+
+	'Java': [
+		// System.out.println() etc.
+		{ pattern: /System\.(in|out)\./, points: 2 },
+		// Class variable declarations
+		{ pattern: /(private|protected|public)( )*\w+( )*\w+(( )*=( )*[\w\d])?/, points: 2 },
+		// Method
+		{ pattern: /(private|protected|public)( )*\w+( )*[\w\d]+\(.+\)/, points: 2 },
+		// @Override annotation.
+		{ pattern: /@Override/, points: 2 },
+		// String class
+		{ pattern: /(^|\s)(String)( )+[\w\d]+( )*=?/, points: 2 },
+		// List/ArrayList
+		{ pattern: /(Array)?List<\w+>( )+[\w\d]+/, points: 2 },
+		// class keyword
+		{ pattern: /(public( )*)?class( )*\w+/, points: 2 },
+		// Array declaration.
+		{ pattern: /(\w+)(\[\])+( )+\w+/, points: 2 },
+		// final keyword
+		{ pattern: /final( )*\w+/, points: 2 },
+		// new Keyword (Java)
+		{ pattern: /new \w+( )*\(.+\)/, points: 2 },
+		// C style variable declaration.
+		{ pattern: /(^|\s)(char|long|int|float|double)( )+[\w\d]+( )*=?/, points: 1 },
+		// extends/implements keywords
+		{ pattern: /(extends|implements)/, points: 1 },
+		// const
+		{ pattern: /const( )*\w+/, points: -1 },
 	],
 
 	'Unknown': [],
