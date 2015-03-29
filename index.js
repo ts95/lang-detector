@@ -43,7 +43,7 @@ var languages = {
 		// !== operator
 		{ pattern: /!==/g, points: 2 },
 		// Variable declaration
-		{ pattern: /var( )+\w+( )*=?/, points: 1 },
+		{ pattern: /var( )+\w+( )*=?/, points: 2 },
 		// null keyword
 		{ pattern: /null/g, points: 1 },
 		// C style variable declaration.
@@ -55,10 +55,10 @@ var languages = {
 		{ pattern: /(char|long|int|float|double)( )+\w+( )*=?/, points: 2 },
 		// malloc function call
 		{ pattern: /malloc\(.+\)/, points: 2 },
-		// Variable declaration and/or initialisation.
-		{ pattern: /(\w+)( )+\w+(;|( )*=)/, points: 2 },
 		// #include <whatever.h>
 		{ pattern: /#include (<|")\w+\.h(<|")/g, points: 2 },
+		// Variable declaration and/or initialisation.
+		{ pattern: /(\w+)( )+\w+(;|( )*=)/, points: 1 },
 		// Array declaration.
 		{ pattern: /(\w+)( )+\w+\[.+\]/, points: 1 },
 		// NULL constant

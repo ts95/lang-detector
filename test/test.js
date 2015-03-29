@@ -47,19 +47,9 @@ describe('fizzbuzz', function() {
 
 });
 
-describe('random code', function() {
+describe('big files', function() {
 
-	it('should detect Unknown', function(done) {
-		fs.readFile(__dirname + '/random/plain-text.txt', {
-			encoding: 'utf8',
-		}, function(err, code) {
-			if (err) throw err;
-			assert.equal('Unknown', detectLang(code));
-			done();
-		});
-	});
-
-	it('should detect C', function(done) {
+	it('should detect C (4593 loc file)', function(done) {
 		fs.readFile(__dirname + '/random/large.c', {
 			encoding: 'utf8',
 		}, function(err, code) {
@@ -67,6 +57,20 @@ describe('random code', function() {
 			assert.equal('C', detectLang(code));
 			done();
 		});
+	});
+
+});
+
+describe('snippets', function() {
+
+	it('should detect JavaScript', function(done) {
+		assert.equal('JavaScript', detectLang('var javascript = true;'));
+		done();
+	});
+
+	it('should detect Unknown', function(done) {
+		assert.equal('Unknown', detectLang('ooga booga'));
+		done();
 	});
 
 });
