@@ -26,9 +26,9 @@ function getPoints(lineOfCode, checkers) {
  * necessary as it would inhibit performance.
  *
  * Points scale:
- *  2 if the regex is very likely to match
- *  1 if the regex is somewhat likely to match
- * -1 if the regex is very unlikely to match
+ *  2 = Bonus: Almost unique to a given language.
+ *  1 = Regular: Not unique to a given language.
+ * -1 = Penalty: Does not match a given language.
  */
 var languages = {
 	'JavaScript': [
@@ -81,6 +81,8 @@ var languages = {
 		{ pattern: /printf( )*\(.+\)/, points: 1 },
 		// new Keyword from C++
 		{ pattern: /new \w+/, points: -1 },
+		// Single quote multicharacter string
+		{ pattern: /'.{2,}'/, points: -1 },
 	],
 
 	'Python': [
@@ -135,6 +137,8 @@ var languages = {
 		{ pattern: /(\w+)(\[\])+( )+\w+/, points: 2 },
 		// final keyword
 		{ pattern: /final( )*\w+/, points: 2 },
+		// getter & setter
+		{ pattern: /\w+\.(get|set)\(.+\)/, points: 2 },
 		// new Keyword (Java)
 		{ pattern: /new \w+( )*\(.+\)/, points: 2 },
 		// C style variable declaration.
@@ -153,6 +157,8 @@ var languages = {
 		{ pattern: /const( )*\w+/, points: -1 },
 		// poiner
 		{ pattern: /(\w+)( )*\*( )*\w+/, points: -1 },
+		// Single quote multicharacter string
+		{ pattern: /'.{2,}'/, points: -1 },
 	],
 
 	'Unknown': [],

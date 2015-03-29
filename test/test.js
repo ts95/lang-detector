@@ -63,19 +63,28 @@ describe('big files', function() {
 
 describe('snippets', function() {
 
+	// Test a short JavaScript snippet.
 	it('should detect JavaScript', function(done) {
 		assert.equal('JavaScript', detectLang('var javascript = true;'));
 		done();
 	});
 
+	// Test something that isn't a programming language.
 	it('should detect Unknown', function(done) {
 		assert.equal('Unknown', detectLang('ooga booga'));
 		done();
 	});
 
+	// Test pointer.
 	it('should detect C', function(done) {
 		assert.equal('C', detectLang('int *ptr;'));
 		done();
-	})
+	});
+
+	// Test getter/setter.
+	it('should detect Java', function(done) {
+		assert.equal('Java', detectLang('Person person = people.get(0);'));
+		done();
+	});
 
 });

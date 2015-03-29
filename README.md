@@ -1,6 +1,6 @@
 lang-detector
 =====
-A fast and small library for detecting the programming language of a code snippet. Can also be used on moderately large strings of code spanning a few thousand lines.
+A fast and small library for detecting the programming language of a code snippet. Can also be used on moderately large strings of code spanning a few thousand lines, but it will block execution so be careful.
 
 This library should only be used if you don't have anything else to go by to determine the language of the code, like a file extension.
 
@@ -9,11 +9,13 @@ This library should only be used if you don't have anything else to go by to det
 npm install lang-detector
 ```
 
-## Currently supported languages:
+## Recognizable langauges
 * JavaScript
 * C
 * Python
 * Java
+
+This list will increase with time.
 
 ## Usage:
 ```JavaScript
