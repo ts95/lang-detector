@@ -21,6 +21,7 @@ function getPoints(lineOfCode, checkers) {
  * code being in the given language.
  * 
  * The function returns:
+ * -1 if it's very unlikely
  *  0 if it's unlikely
  *  1 if it's somewhat likely
  *  2 if it's very likely
@@ -31,8 +32,9 @@ var languages = {
 			{ pattern: /undefined/g, points: 2 },
 			{ pattern: /function( )\((\w+,?( )*)+\)*/g, points: 2 },
 			{ pattern: /console.log( )*\(/g, points: 2 },
-			{ pattern: /^var( )+\w+/g, points: 1 },
+			{ pattern: /^var( )+\w+( )*=?/, points: 1 },
 			{ pattern: /null/g, points: 1 },
+			{ pattern: /^(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
 		];
 		return getPoints(lineOfCode, checkers);
 	},
