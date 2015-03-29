@@ -29,4 +29,5 @@ detectLang('ooga booga', true) /* =>  { 'JavaScript' : 0,
 
 ```
 
-##Disclaimer The accuracy of this library is disputable.
+##Disclaimer
+The accuracy of this library is disputable.
