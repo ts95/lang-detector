@@ -17,12 +17,15 @@
     "detector"
   ],
   "author": "Toni Sučić",
-  "license": "IMT",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ts95/lang-detector/issues"
   },
   "homepage": "https://github.com/ts95/lang-detector",
   "dependencies": {
+    "underscore": "^1.8.2"
+  },
+  "browserDependencies": {
     "underscore": "^1.8.2"
   }
 }
