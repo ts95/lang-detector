@@ -1,18 +1,18 @@
 lang-detector
 =====
-A library for detecting the programming language of a code snippet.
+A fast and small library for detecting the programming language of a code snippet. Can also be used on very large strings of code spanning multiple thousand lines.
 
-Currently supported languages:
+## Currently supported languages:
 * JavaScript
 * C
 * Python
 
-Install:
+## Install:
 ```Shell
 npm install lang-detector
 ```
 
-Usage:
+## Usage:
 ```JavaScript
 var detectLang = require('lang-detector');
 
@@ -26,4 +26,4 @@ detectLang('ooga booga', true) /* =>  { 'JavaScript': 0,
 
 ```
 
-Disclaimer: The accuracy of this library is disputable.
+**Disclaimer:** The accuracy of this library is disputable.

@@ -41,7 +41,7 @@ var languages = {
 		// !== operator
 		{ pattern: /!==/g, points: 1 },
 		// C style variable declaration.
-		{ pattern: /(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
+		{ pattern: /(^|\s)(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
 	],
 
 	'C': [
@@ -95,7 +95,7 @@ var languages = {
 		// const
 		{ pattern: /const( )*\w+/, points: -1 },
 		// C style variable declaration.
-		{ pattern: /(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
+		{ pattern: /(^|\s)(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
 	],
 
 	'Unknown': [],
