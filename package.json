@@ -1,0 +1,28 @@
+{
+  "name": "lang-detector",
+  "version": "0.0.1",
+  "description": "A library for detecting the programming language of a code snippet.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ts95/lang-detector"
+  },
+  "keywords": [
+    "programming",
+    "language",
+    "detecting",
+    "detector"
+  ],
+  "author": "Toni Sučić",
+  "license": "IMT",
+  "bugs": {
+    "url": "https://github.com/ts95/lang-detector/issues"
+  },
+  "homepage": "https://github.com/ts95/lang-detector",
+  "dependencies": {
+    "underscore": "^1.8.2"
+  }
+}
