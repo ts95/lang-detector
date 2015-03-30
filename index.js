@@ -161,10 +161,8 @@ var languages = {
 	],
 
 	'CSS': [
-		// Selectors
-		{ pattern: /([a-z0-9\.#\*][\[\],\w~=\|\^\$:{1,2}\(\)\s]+)( )*{/, points: 2 },
 		// Properties
-		{ pattern: /[a-z\-]+:.+;/, points: 1 },
+		{ pattern: /[a-z\-]+:.+;/, points: 2 },
 	],
 
 	'Unknown': [],
