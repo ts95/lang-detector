@@ -1,3 +1,27 @@
+/**
+ *	The MIT License (MIT)
+ *
+ *	Copyright (c) 2015 Toni Sučić
+ *
+ *	Permission is hereby granted, free of charge, to any person obtaining a copy
+ *	of this software and associated documentation files (the "Software"), to deal
+ *	in the Software without restriction, including without limitation the rights
+ *	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *	copies of the Software, and to permit persons to whom the Software is
+ *	furnished to do so, subject to the following conditions:
+ *
+ *	The above copyright notice and this permission notice shall be included in
+ *	all copies or substantial portions of the Software.
+ *
+ *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *	THE SOFTWARE.
+ */
+
 var _ = require('underscore');
 
 var debug = false;
@@ -60,7 +84,7 @@ var languages = {
 		// malloc function call
 		{ pattern: /malloc\(.+\)/, points: 2 },
 		// #include <whatever.h>
-		{ pattern: /#include (<|")\w+\.h(<|")/g, points: 2 },
+		{ pattern: /#include (<|")\w+\.h(>|")/, points: 2 },
 		// pointer
 		{ pattern: /(\w+)( )*\*( )*\w+/, points: 2 },
 		// Variable declaration and/or initialisation.
@@ -81,6 +105,39 @@ var languages = {
 		{ pattern: /new \w+/, points: -1 },
 		// Single quote multicharacter string
 		{ pattern: /'.{2,}'/, points: -1 },
+	],
+
+	'C++': [
+		// Primitive variable declaration.
+		{ pattern: /(char|long|int|float|double)( )+\w+( )*=?/, points: 2 },
+		// #include <whatever.h>
+		{ pattern: /#include( )*(<|")\w+(\.h)?(>|")/, points: 2 },
+		// using namespace something
+		{ pattern: /using( )*namespace( )*\w+( )*;/, points: 2 },
+		// template
+		{ pattern: /template( )*<.*>/, points: 2 },
+		// std
+		{ pattern: /std::\w+/g, points: 2 },
+		// cout/cin/endl
+		{ pattern: /(cout|cin|endl)/g, points: 2 },
+		// NULL constant
+		{ pattern: /NULL/, points: 1 },
+		// void keyword
+		{ pattern: /void/g, points: 1 },
+		// (else )if statement
+		{ pattern: /(else )?if( )*\(.+\)/, points: 1 },
+		// while loop
+		{ pattern: /while( )+\(.+\)/, points: 1 },
+		// new Keyword
+		{ pattern: /new \w+(\(.*\))?/, points: 2 },
+		// Scope operator
+		{ pattern: /\w*::\w+/, points: 1 },
+		// malloc function call
+		{ pattern: /malloc\(.+\)/, points: -1 },
+		// Single quote multicharacter string
+		{ pattern: /'.{2,}'/, points: -1 },
+		// Java List/ArrayList
+		{ pattern: /(List<\w+>|ArrayList<\w*>( )*\(.*\))(( )+[\w]+|;)/, points: -1 },
 	],
 
 	'Python': [
@@ -124,7 +181,7 @@ var languages = {
 		// class keyword
 		{ pattern: /(public( )*)?class( )*\w+/, points: 2 },
 		// Array declaration.
-		{ pattern: /(\w+)(\[\])+( )+\w+/, points: 2 },
+		{ pattern: /(\w+)(\[( )*\])+( )+\w+/, points: 2 },
 		// final keyword
 		{ pattern: /final( )*\w+/, points: 2 },
 		// getter & setter
@@ -149,6 +206,8 @@ var languages = {
 		{ pattern: /(\w+)( )*\*( )*\w+/, points: -1 },
 		// Single quote multicharacter string
 		{ pattern: /'.{2,}'/, points: -1 },
+		// C style include
+		{ pattern: /#include( )*(<|")\w+(\.h)?(>|")/, points: -1 },
 	],
 
 	'HTML': [
@@ -165,7 +224,7 @@ var languages = {
 		// require/include
 		{ pattern: /(require|include)( )*'\w+(\.rb)?'/, points: 2 },
 		// Function definition
-		{ pattern: /def( )+\w+( )*(\(.+\))?(?!:)/, points: 2 },
+		{ pattern: /def( )+\w+( )*(\(.+\))?( )*\n/, points: 2 },
 		// Instance variables
 		{ pattern: /@\w+/, points: 2 },
 		// Boolean property

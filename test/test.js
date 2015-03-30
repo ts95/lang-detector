@@ -29,6 +29,14 @@ describe('fizzbuzz', function() {
 		});
 	});
 
+	it('should detect C++', function(done) {
+		readFizzBuzzFile('.cpp', function(err, code) {
+			if (err) throw err;
+			assert.equal('C++', detectLang(code));
+			done();
+		});
+	});
+
 	it('should detect Python', function(done) {
 		readFizzBuzzFile('.py', function(err, code) {
 			if (err) throw err;
@@ -149,6 +157,11 @@ describe('hello world', function() {
 
 	it('should detect C', function(done) {
 		assert.equal('C', detectLang('printf("Hello world!\\n");'));
+		done();
+	});
+
+	it('should detect C++', function(done) {
+		assert.equal('C++', detectLang('cout << "Hello world" << endl;'));
 		done();
 	});
 

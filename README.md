@@ -9,7 +9,7 @@ This library should only be used if you don't have anything else to go by to det
 npm install lang-detector
 ```
 
-## Recognizable languages
+## Detectable languages
 * JavaScript
 * C
 * Python
@@ -17,8 +17,6 @@ npm install lang-detector
 * HTML
 * CSS
 * Ruby
-
-This list will increase with time.
 
 ## Usage:
 ```JavaScript
@@ -46,3 +44,6 @@ detectLang('Hello world.', true)
 
 ## Unit tests
 Run `npm test` in the root of the directory to run the tests.
+
+## License
+<a href="https://tldrlegal.com/license/mit-license" target="_blank">MIT</a> © <a href="https://github.com/ts95/" target="_blank">Toni Sučić</a>
