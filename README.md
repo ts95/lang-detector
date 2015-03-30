@@ -9,7 +9,7 @@ This library should only be used if you don't have anything else to go by to det
 npm install lang-detector
 ```
 
-## Recognizable langauges
+## Recognizable languages
 * JavaScript
 * C
 * Python
@@ -30,12 +30,16 @@ This list will increase with time.
  */
 var detectLang = require('lang-detector');
 
-detectLang('var javascript = true;') // =>    'JavaScript'
-detectLang('ooga booga', true)       /* =>  { 'JavaScript' : 0,
-                                              'C'          : 0,
-                                              'Python'     : 0,
-                                               ...
-                                              'Unknown'    : 1 } */
+detectLang('List<String> things = new ArrayList<>();')
+    // => 'Java'
+detectLang('console.log("Hello world");')
+    // =>    'JavaScript'
+detectLang('Hello world.', true)
+    /* =>  { 'JavaScript' : 0,
+             'C'          : 0,
+             'Python'     : 0,
+              ...
+             'Unknown'    : 1 } */
 
 ```
 

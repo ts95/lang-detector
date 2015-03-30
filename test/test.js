@@ -119,6 +119,12 @@ describe('snippets', function() {
 		done();
 	});
 
+	// Test List/ArrayList
+	it('should detect Java', function(done) {
+		assert.equal('Java', detectLang('List<String> things = new ArrayList<>();'));
+		done();
+	});
+
 });
 
 describe('hello world', function() {

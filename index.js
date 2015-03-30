@@ -124,7 +124,7 @@ var languages = {
 		// String class
 		{ pattern: /(^|\s)(String)( )+[\w]+( )*=?/, points: 2 },
 		// List/ArrayList
-		{ pattern: /(Array)?List<\w+>( )+[\w]+/, points: 2 },
+		{ pattern: /(List<\w+>|ArrayList<\w*>( )*\(.*\))(( )+[\w]+|;)/, points: 2 },
 		// class keyword
 		{ pattern: /(public( )*)?class( )*\w+/, points: 2 },
 		// Array declaration.
