@@ -1,5 +1,7 @@
 var _ = require('underscore');
 
+var debug = false;
+
 function getPoints(language, lineOfCode, checkers) {
 	return _.reduce(_.map(checkers, function(checker) {
 		if (checker.pattern.test(lineOfCode)) {
@@ -16,15 +18,15 @@ function getPoints(language, lineOfCode, checkers) {
  *  { pattern: /something/, points: 1 }
  * 
  * Key: Language name.
- * Value: Array of pattern and points pairs (checkers).
+ * Value: Array of checkers.
  * 
  * N.B. An array of checkers shouldn't contain more regexes than
  * necessary as it would inhibit performance.
  *
  * Points scale:
- *  2 = Bonus: Almost unique to a given language.
- *  1 = Regular: Not unique to a given language.
- * -1 = Penalty: Does not match a given language.
+ *  2 = Bonus point:    Almost unique to a given language.
+ *  1 = Regular point:  Not unique to a given language.
+ * -1 = Penalty point:  Does not match a given language.
  */
 var languages = {
 	'JavaScript': [
@@ -74,7 +76,7 @@ var languages = {
 		// while loop
 		{ pattern: /while( )+\(.+\)/, points: 1 },
 		// printf function
-		{ pattern: /printf( )*\(.+\)/, points: 1 },
+		{ pattern: /(printf|puts)( )*\(.+\)/, points: 1 },
 		// new Keyword from C++
 		{ pattern: /new \w+/, points: -1 },
 		// Single quote multicharacter string
@@ -86,8 +88,6 @@ var languages = {
 		{ pattern: /def( )+\w+( )*:/, points: 2 },
 		// while loop
 		{ pattern: /while (.+):/, points: 2 },
-		// for loop
-		{ pattern: /for (\w+|\(?\w+,( )*\w+\)?) in (.+):?/, points: 2 },
 		// from library import something
 		{ pattern: /from [\w\.]+ import (\w+|\*)/, points: 2 },
 		// class keyword
@@ -98,6 +98,8 @@ var languages = {
 		{ pattern: /elif( )+(.+)( )*:/, points: 2 },
 		// else keyword
 		{ pattern: /else:/, points: 2 },
+		// for loop
+		{ pattern: /for (\w+|\(?\w+,( )*\w+\)?) in (.+):?/, points: 1 },
 		// Python variable declaration.
 		{ pattern: /\w+( )*=( )*[\w]+/, points: 1 },
 		// import something
@@ -106,10 +108,6 @@ var languages = {
 		{ pattern: /print((( )*\(.+\))|( )+.+)/, points: 1 },
 		// &&/|| operators
 		{ pattern: /(&{2}|\|{2})/, points: -1 },
-		// const
-		{ pattern: /const( )*\w+/, points: -1 },
-		// C style variable declaration.
-		{ pattern: /(^|\s)(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
 	],
 
 	'Java': [
@@ -119,8 +117,6 @@ var languages = {
 		{ pattern: /(private|protected|public)( )*\w+( )*\w+(( )*=( )*[\w])?/, points: 2 },
 		// Method
 		{ pattern: /(private|protected|public)( )*\w+( )*[\w]+\(.+\)/, points: 2 },
-		// @Override annotation.
-		{ pattern: /@Override/, points: 2 },
 		// String class
 		{ pattern: /(^|\s)(String)( )+[\w]+( )*=?/, points: 2 },
 		// List/ArrayList
@@ -149,7 +145,7 @@ var languages = {
 		{ pattern: /void/g, points: 1 },
 		// const
 		{ pattern: /const( )*\w+/, points: -1 },
-		// poiner
+		// pointer
 		{ pattern: /(\w+)( )*\*( )*\w+/, points: -1 },
 		// Single quote multicharacter string
 		{ pattern: /'.{2,}'/, points: -1 },
@@ -163,6 +159,35 @@ var languages = {
 	'CSS': [
 		// Properties
 		{ pattern: /[a-z\-]+:.+;/, points: 2 },
+	],
+
+	'Ruby': [
+		// require/include
+		{ pattern: /(require|include)( )*'\w+(\.rb)?'/, points: 2 },
+		// Function definition
+		{ pattern: /def( )+\w+( )*(\(.+\))?(?!:)/, points: 2 },
+		// Instance variables
+		{ pattern: /@\w+/, points: 2 },
+		// Boolean property
+		{ pattern: /\.\w+\?/, points: 2 },
+		// puts (Ruby print)
+		{ pattern: /puts( )*("|').+("|')/, points: 2 },
+		// Inheriting class
+		{ pattern: /class [A-Z]\w*( )*<( )*([A-Z]\w*(::)?)+/, points: 2 },
+		// attr_accessor
+		{ pattern: /attr_accessor( )+(:\w+(,( )*)?)+/, points: 2 },
+		// new
+		{ pattern: /\w+\.new( )+/, points: 2 },
+		// elsif keyword
+		{ pattern: /elsif/, points: 2 },
+		// do
+		{ pattern: /do( )*\|(\w+(,( )*\w+)?)+\|/, points: 2 },
+		// for loop
+		{ pattern: /for (\w+|\(?\w+,( )*\w+\)?) in (.+)/, points: 1 },
+		// nil keyword
+		{ pattern: /nil/, points: 1 },
+		// Scope operator
+		{ pattern: /[A-Z]\w*::[A-Z]\w*/, points: 1 },
 	],
 
 	'Unknown': [],
@@ -197,10 +222,7 @@ function detectLang(snippet, allResults) {
 			return memo + num;
 		}, 0);
 
-		return {
-			language: language,
-			points: points,
-		};
+		return { language: language, points: points };
 	});
 
 	if (allResults) {
@@ -214,6 +236,11 @@ function detectLang(snippet, allResults) {
 	var bestResult = _.max(results, function(result) {
 		return result.points;
 	});
+
+	if (debug) {
+		console.log(bestResult.language);
+		console.log(results);
+	}
 
 	return bestResult.language;
 }

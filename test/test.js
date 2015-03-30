@@ -45,6 +45,14 @@ describe('fizzbuzz', function() {
 		});
 	});
 
+	it('should detect Ruby', function(done) {
+		readFizzBuzzFile('.rb', function(err, code) {
+			if (err) throw err;
+			assert.equal('Ruby', detectLang(code));
+			done();
+		});
+	});
+
 });
 
 describe('big files', function() {
@@ -140,7 +148,7 @@ describe('hello world', function() {
 	});
 
 	it('should detect C', function(done) {
-		assert.equal('C', detectLang('printf("Hello world!\\n")'));
+		assert.equal('C', detectLang('printf("Hello world!\\n");'));
 		done();
 	});
 
@@ -161,6 +169,11 @@ describe('hello world', function() {
 
 	it('should detect CSS', function(done) {
 		assert.equal('CSS', detectLang('.hello-world {\n\tfont-size: 100px;\n}'));
+		done();
+	});
+
+	it('should detect Ruby', function(done) {
+		assert.equal('Ruby', detectLang('puts "Hello world"'));
 		done();
 	});
 

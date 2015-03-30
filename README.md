@@ -16,6 +16,7 @@ npm install lang-detector
 * Java
 * HTML
 * CSS
+* Ruby
 
 This list will increase with time.
 
@@ -31,7 +32,7 @@ This list will increase with time.
 var detectLang = require('lang-detector');
 
 detectLang('List<String> things = new ArrayList<>();')
-    // => 'Java'
+    // =>    'Java'
 detectLang('console.log("Hello world");')
     // =>    'JavaScript'
 detectLang('Hello world.', true)
