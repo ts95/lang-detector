@@ -1,18 +1,14 @@
 var _ = require('underscore');
 
-function sum(nums) {
-	return _.reduce(nums, function(memo, num) {
-		return memo + num;
-	}, 0);
-}
-
 function getPoints(lineOfCode, checkers) {
-	return sum(_.map(checkers, function(checker) {
+	return _.reduce(_.map(checkers, function(checker) {
 		if (checker.pattern.test(lineOfCode)) {
 			return checker.points;
 		}
 		return 0;
-	}));
+	}), function(memo, num) {
+		return memo + num;
+	}, 0);
 }
 
 /**
@@ -37,7 +33,7 @@ var languages = {
 		// Function definition
 		{ pattern: /function( )*(\w+( )*)?\(.+\)/g, points: 2 },
 		// console.log('ayy lmao')
-		{ pattern: /console.log( )*\(/g, points: 2 },
+		{ pattern: /console\.log( )*\(/g, points: 2 },
 		// === operator
 		{ pattern: /===/g, points: 2 },
 		// !== operator
@@ -52,7 +48,7 @@ var languages = {
 		{ pattern: /while( )+\(.+\)/, points: 1 },
 		// C style variable declaration.
 		{ pattern: /(^|\s)(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
-		// poiner
+		// pointer
 		{ pattern: /(\w+)( )*\*( )*\w+/, points: -1 },
 	],
 
@@ -63,7 +59,7 @@ var languages = {
 		{ pattern: /malloc\(.+\)/, points: 2 },
 		// #include <whatever.h>
 		{ pattern: /#include (<|")\w+\.h(<|")/g, points: 2 },
-		// poiner
+		// pointer
 		{ pattern: /(\w+)( )*\*( )*\w+/, points: 2 },
 		// Variable declaration and/or initialisation.
 		{ pattern: /(\w+)( )+\w+(;|( )*=)/, points: 1 },
@@ -102,12 +98,12 @@ var languages = {
 		{ pattern: /elif( )+(.+)( )*:/, points: 2 },
 		// else keyword
 		{ pattern: /else:/, points: 2 },
+		// Python variable declaration.
+		{ pattern: /\w+( )*=( )*[\w]+/, points: 1 },
 		// import something
 		{ pattern: /import ([[^\.]\w])+/, points: 1 },
 		// print statement/function
 		{ pattern: /print((( )*\(.+\))|( )+.+)/, points: 1 },
-		// pass keyword
-		{ pattern: /pass/, points: 1 },
 		// and/or keywords/operators
 		{ pattern: /(and|or)/, points: 1 },
 		// &&/|| operators
@@ -122,15 +118,15 @@ var languages = {
 		// System.out.println() etc.
 		{ pattern: /System\.(in|out)\./, points: 2 },
 		// Class variable declarations
-		{ pattern: /(private|protected|public)( )*\w+( )*\w+(( )*=( )*[\w\d])?/, points: 2 },
+		{ pattern: /(private|protected|public)( )*\w+( )*\w+(( )*=( )*[\w])?/, points: 2 },
 		// Method
-		{ pattern: /(private|protected|public)( )*\w+( )*[\w\d]+\(.+\)/, points: 2 },
+		{ pattern: /(private|protected|public)( )*\w+( )*[\w]+\(.+\)/, points: 2 },
 		// @Override annotation.
 		{ pattern: /@Override/, points: 2 },
 		// String class
-		{ pattern: /(^|\s)(String)( )+[\w\d]+( )*=?/, points: 2 },
+		{ pattern: /(^|\s)(String)( )+[\w]+( )*=?/, points: 2 },
 		// List/ArrayList
-		{ pattern: /(Array)?List<\w+>( )+[\w\d]+/, points: 2 },
+		{ pattern: /(Array)?List<\w+>( )+[\w]+/, points: 2 },
 		// class keyword
 		{ pattern: /(public( )*)?class( )*\w+/, points: 2 },
 		// Array declaration.
@@ -142,7 +138,7 @@ var languages = {
 		// new Keyword (Java)
 		{ pattern: /new \w+( )*\(.+\)/, points: 2 },
 		// C style variable declaration.
-		{ pattern: /(^|\s)(char|long|int|float|double)( )+[\w\d]+( )*=?/, points: 1 },
+		{ pattern: /(^|\s)(char|long|int|float|double)( )+[\w]+( )*=?/, points: 1 },
 		// extends/implements keywords
 		{ pattern: /(extends|implements)/, points: 1 },
 		// null keyword
@@ -161,6 +157,18 @@ var languages = {
 		{ pattern: /'.{2,}'/, points: -1 },
 	],
 
+	'HTML': [
+		// Tags
+		{ pattern: /<[a-z0-9]+(( )*[\w]+=('|").+('|")( )*)?>.*<\/[a-z0-9]+>/g, points: 2 },
+	],
+
+	'CSS': [
+		// Selectors
+		{ pattern: /([a-z0-9\.#\*][\[\],\w~=\|\^\$:{1,2}\(\)\s]+)( )*{/, points: 2 },
+		// Properties
+		{ pattern: /[a-z\-]+:.+;/, points: 1 },
+	],
+
 	'Unknown': [],
 };
 
@@ -169,8 +177,13 @@ var languages = {
  * @allResults {Boolean} (Optional) Return all results.
  * @return {String} or {Object}
  */
-function detect(snippet, allResults) {
-	var linesOfCode = snippet.replace(/\r\n?/g, '\n').split('\n');
+function detectLang(snippet, allResults) {
+	var linesOfCode = snippet
+		.replace(/\r\n?/g, '\n')
+		.replace(/\n{2,}/g, '\n')
+		.split('\n');
+
+	console.log('loc:', linesOfCode.length);
 
 	var pairs = _.keys(languages).map(function(key) {
 		return { language: key, checkers: languages[key] };
@@ -179,11 +192,20 @@ function detect(snippet, allResults) {
 	var results = _.map(pairs, function(pairs) {
 		var language = pairs.language;
 		var checkers = pairs.checkers;
+
+		if (language === 'Unknown') {
+			return { language: 'Unknown', points: 1 };
+		}
+
+		var points = _.reduce(_.map(linesOfCode, function(lineOfCode) {
+			return getPoints(lineOfCode, checkers);
+		}), function(memo, num) {
+			return memo + num;
+		}, 0);
+
 		return {
 			language: language,
-			points: language === 'Unknown' ? 1 : sum(_.map(linesOfCode, function(lineOfCode) {
-				return getPoints(lineOfCode, checkers);
-			})),
+			points: points,
 		};
 	});
 
@@ -202,4 +224,4 @@ function detect(snippet, allResults) {
 	return bestResult.language;
 }
 
-module.exports = detect;
+module.exports = detectLang;
