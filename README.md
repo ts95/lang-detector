@@ -12,6 +12,7 @@ npm install lang-detector
 ## Detectable languages
 * JavaScript
 * C
+* C++
 * Python
 * Java
 * HTML
