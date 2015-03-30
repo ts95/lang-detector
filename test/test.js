@@ -120,3 +120,42 @@ describe('snippets', function() {
 	});
 
 });
+
+describe('hello world', function() {
+
+	it('should detect Unknown', function(done) {
+		assert.equal('Unknown', detectLang('Hello world!'));
+		done();
+	});
+
+	it('should detect JavaScript', function(done) {
+		assert.equal('JavaScript', detectLang('console.log("Hello world!");'));
+		done();
+	});
+
+	it('should detect C', function(done) {
+		assert.equal('C', detectLang('printf("Hello world!\\n")'));
+		done();
+	});
+
+	it('should detect Python', function(done) {
+		assert.equal('Python', detectLang('print "Hello world!"'));
+		done();
+	});
+
+	it('should detect Java', function(done) {
+		assert.equal('Java', detectLang('System.out.println("Hello world!");'));
+		done();
+	});
+
+	it('should detect HTML', function(done) {
+		assert.equal('HTML', detectLang('<h1>Hello world</h1>'));
+		done();
+	});
+
+	it('should detect CSS', function(done) {
+		assert.equal('CSS', detectLang('.hello-world {\n\tfont-size: 100px;\n}'));
+		done();
+	});
+
+});

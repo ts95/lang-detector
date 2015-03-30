@@ -1,6 +1,6 @@
 var _ = require('underscore');
 
-function getPoints(lineOfCode, checkers) {
+function getPoints(language, lineOfCode, checkers) {
 	return _.reduce(_.map(checkers, function(checker) {
 		if (checker.pattern.test(lineOfCode)) {
 			return checker.points;
@@ -104,8 +104,6 @@ var languages = {
 		{ pattern: /import ([[^\.]\w])+/, points: 1 },
 		// print statement/function
 		{ pattern: /print((( )*\(.+\))|( )+.+)/, points: 1 },
-		// and/or keywords/operators
-		{ pattern: /(and|or)/, points: 1 },
 		// &&/|| operators
 		{ pattern: /(&{2}|\|{2})/, points: -1 },
 		// const
@@ -183,8 +181,6 @@ function detectLang(snippet, allResults) {
 		.replace(/\n{2,}/g, '\n')
 		.split('\n');
 
-	console.log('loc:', linesOfCode.length);
-
 	var pairs = _.keys(languages).map(function(key) {
 		return { language: key, checkers: languages[key] };
 	});
@@ -198,7 +194,7 @@ function detectLang(snippet, allResults) {
 		}
 
 		var points = _.reduce(_.map(linesOfCode, function(lineOfCode) {
-			return getPoints(lineOfCode, checkers);
+			return getPoints(language, lineOfCode, checkers);
 		}), function(memo, num) {
 			return memo + num;
 		}, 0);
