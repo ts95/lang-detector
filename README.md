@@ -24,7 +24,7 @@ npm install lang-detector
 ## Usage
 ```JavaScript
 /**
- * function detectLang(snippet, allResults) { ... }
+ * function detectLang(snippet, options) { ... }
  *
  * @snippet {String} The code snippet.
  * @options {Object} (Optional) {
