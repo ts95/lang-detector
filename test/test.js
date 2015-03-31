@@ -61,6 +61,14 @@ describe('fizzbuzz', function() {
 		});
 	});
 
+	it('should detect Go', function(done) {
+		readFizzBuzzFile('.go', function(err, code) {
+			if (err) throw err;
+			assert.equal('Go', detectLang(code));
+			done();
+		});
+	});
+
 });
 
 describe('big files', function() {
@@ -187,6 +195,11 @@ describe('hello world', function() {
 
 	it('should detect Ruby', function(done) {
 		assert.equal('Ruby', detectLang('puts "Hello world"'));
+		done();
+	});
+
+	it('should detect Go', function(done) {
+		assert.equal('Go', detectLang('fmt.Println("Hello world")'));
 		done();
 	});
 

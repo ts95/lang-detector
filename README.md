@@ -1,10 +1,11 @@
 lang-detector
 =====
-A fast and small library for detecting the programming language of a code snippet. Can also be used on moderately large strings of code spanning a few thousand lines, but it's not recommended as the function blocks execution.
+A fast and small library for detecting the programming language of a code snippet. 
+Can be used for strings of code spanning multiple thousand lines.
 
 This library should only be used if you don't have anything else to go by to determine the language of the code, like a file extension.
 
-## Install:
+## Install
 ```Shell
 npm install lang-detector
 ```
@@ -18,15 +19,19 @@ npm install lang-detector
 * HTML
 * CSS
 * Ruby
+* Go
 
-## Usage:
+## Usage
 ```JavaScript
 /**
  * function detectLang(snippet, allResults) { ... }
  *
  * @snippet {String} The code snippet.
- * @allResults {Boolean} (Optional) Return all results if true (object instead of string).
- * @return {String} or {Object}
+ * @options {Object} (Optional) {
+ *   heuristic: {Boolean} Use shortcuts for large snippets (improves performance). `true` by default.
+ *   detailedResult: {Boolean} Return statistics. `false` by default.
+ * }
+ * @return {String} (Name of the detected language) or {Object} (Statistics).
  */
 var detectLang = require('lang-detector');
 
@@ -34,13 +39,19 @@ detectLang('List<String> things = new ArrayList<>();')
     // =>    'Java'
 detectLang('console.log("Hello world");')
     // =>    'JavaScript'
-detectLang('Hello world.', true)
-    /* =>  { 'JavaScript' : 0,
-             'C'          : 0,
-             'Python'     : 0,
-              ...
-             'Unknown'    : 1 } */
-
+detectLang('Hello world.', { statistics: true })
+    /* =>   {
+                "detected": "Unknown",
+                "statistics": {
+                    "JavaScript": 0,
+                    "C": 0,
+                    "C++": 0,
+                    "Python": 0,
+                     ...
+                    "Unknown": 1
+                }
+            } 
+    */
 ```
 
 ## Unit tests
