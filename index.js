@@ -120,6 +120,8 @@ var languages = {
 		{ pattern: /std::\w+/g, points: 2 },
 		// cout/cin/endl
 		{ pattern: /(cout|cin|endl)/g, points: 2 },
+		// Visibility specifiers
+		{ pattern: /(public|protected|private):/, points: 2 },
 		// NULL constant
 		{ pattern: /NULL/, points: 1 },
 		// void keyword
