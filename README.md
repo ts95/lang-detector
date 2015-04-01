@@ -28,8 +28,8 @@ npm install lang-detector
  *
  * @snippet {String} The code snippet.
  * @options {Object} (Optional) {
- *   heuristic: {Boolean} Use shortcuts for large snippets (improves performance). `true` by default.
- *   detailedResult: {Boolean} Return statistics. `false` by default.
+ *   heuristic: {Boolean} Enable heuristic optimisation for better performance. `true` by default.
+ *   statistics: {Boolean} Return statistics. `false` by default.
  * }
  * @return {String} (Name of the detected language) or {Object} (Statistics).
  */

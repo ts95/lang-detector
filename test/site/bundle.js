@@ -25,8 +25,6 @@
 
 var _ = require('underscore');
 
-var debug = false;
-
 function getPoints(language, lineOfCode, checkers) {
 	return _.reduce(_.map(checkers, function(checker) {
 		if (checker.pattern.test(lineOfCode)) {
@@ -214,7 +212,7 @@ var languages = {
 	'HTML': [
 		// Tags
 		{ pattern: /<[a-z0-9]+(( )*[\w]+=('|").+('|")( )*)?>.*<\/[a-z0-9]+>/g, points: 2 },
-		// Property
+		// Properties
 		{ pattern: /[a-z\-]+=("|').+("|')/g, points: 2 },
 	],
 
@@ -252,13 +250,34 @@ var languages = {
 		{ pattern: /[A-Z]\w*::[A-Z]\w*/, points: 1 },
 	],
 
+	'Go': [
+		// error check
+		{ pattern: /if.+err( )*!=( )*nil.+{/, points: 2 },
+		// Go print
+		{ pattern: /fmt\.Print(f|ln)?\(.*\)/, points: 2 },
+		// function
+		{ pattern: /func( )*\w+( )*\(.*\)( )*{/, points: 2 },
+		// variable initialisation
+		{ pattern: /\w+( )*:=( )*.+[;\n]/, points: 2 },
+		// if/else if
+		{ pattern: /(} else )?if.+{/, points: 2 },
+		// var/const declaration
+		{ pattern: /(var|const)( )+\w+( )+[\w\*]+(\n|( )*=|$)/, points: 2 },
+		// public access on package
+		{ pattern: /[a-z]+\.[A-Z]\w*/, points: 1 },
+		// nil keyword
+		{ pattern: /nil/, points: 1 },
+		// Single quote multicharacter string
+		{ pattern: /'.{2,}'/, points: -1 },
+	],
+
 	'Unknown': [],
 };
 
 function detectLang(snippet, options) {
 	var opts = _.defaults(options || {}, {
 		heuristic: true,
-		detailedResult: false,
+		statistics: false,
 	});
 
 	var linesOfCode = snippet
@@ -300,7 +319,7 @@ function detectLang(snippet, options) {
 		return result.points;
 	});
 
-	if (opts.detailedResult) {
+	if (opts.statistics) {
 		var statistics = {};
 		for (var result of results) {
 			statistics[result.language] = result.points;
@@ -309,11 +328,6 @@ function detectLang(snippet, options) {
 			detected: bestResult.language,
 			statistics: statistics,
 		};
-	}
-
-	if (debug) {
-		console.log(bestResult.language);
-		console.log(results);
 	}
 
 	return bestResult.language;
@@ -11072,12 +11086,11 @@ var detectLang = require('../../index');
 console.log($('#btn'));
 
 $('#btn').click(function(e) {
-	var detection = detectLang($('#input').val(), { detailedResult: true });
-	var parts = ['Detected: ' + detection.detected];
+	var detection = detectLang($('#input').val(), { statistics: true });
+	var parts = [];
 	$.each(detection.statistics, function(language, points) {
 		parts.push(language + ': ' + points);
 	});
 	$('#output').text(parts.join('\n'));
-	$('#output').text(JSON.stringify(detection, null, 4));
 });
 },{"../../index":1,"jquery":2}]},{},[4]);
