@@ -51,7 +51,7 @@ var languages = {
 		// console.log('ayy lmao')
 		{ pattern: /console\.log( )*\(/, points: 2 },
 		// Variable declaration
-		{ pattern: /var( )+\w+( )*=?/, points: 2 },
+		{ pattern: /(var|const|let)( )+\w+( )*=?/, points: 2 },
 		// === operator
 		{ pattern: /===/g, points: 1 },
 		// !== operator
@@ -60,6 +60,8 @@ var languages = {
 		{ pattern: /function(( )+[\$\w]+( )*\(.*\)|( )*\(.*\))/g, points: 1 },
 		// null keyword
 		{ pattern: /null/g, points: 1 },
+		// lambda expression
+		{ pattern: /\(.*\)( )*=>( )*.+/, points: 1 },
 		// (else )if statement
 		{ pattern: /(else )?if( )+\(.+\)/, points: 1 },
 		// while loop
