@@ -41,6 +41,9 @@ var _ = require('underscore');
  *  2 = Bonus points:   Almost unique to a given language.
  *  1 = Regular point:  Not unique to a given language.
  * -1 = Penalty point:  Does not match a given language.
+ * Rare:
+ * -50 = Bonus penalty points: Only used when two languages are mixed together,
+ *  and one has a higher precedence over the other one.
  */
 var languages = {
 	'JavaScript': [
@@ -55,7 +58,7 @@ var languages = {
 		// !== operator
 		{ pattern: /!==/g, points: 1 },
 		// Function definition
-		{ pattern: /function(( )+[\$\w]+\(.*\)|( )*\(.*\))/g, points: 1 },
+		{ pattern: /function(( )+[\$\w]+( )*\(.*\)|( )*\(.*\))/g, points: 1 },
 		// null keyword
 		{ pattern: /null/g, points: 1 },
 		// (else )if statement
@@ -97,6 +100,8 @@ var languages = {
 		{ pattern: /new \w+/, points: -1 },
 		// Single quote multicharacter string
 		{ pattern: /'.{2,}'/, points: -1 },
+		// JS variable declaration
+		{ pattern: /var( )+\w+( )*=?/, points: -1 },
 	],
 
 	'C++': [
@@ -264,7 +269,7 @@ var languages = {
 		// Go print
 		{ pattern: /fmt\.Print(f|ln)?\(.*\)/, points: 2 },
 		// function
-		{ pattern: /func( )*\w+( )*\(.*\)( )*{/, points: 2 },
+		{ pattern: /func(( )+\w+( )*)?\(.*\).*{/, points: 2 },
 		// variable initialisation
 		{ pattern: /\w+( )*:=( )*.+[^;\n]/, points: 2 },
 		// if/else if
@@ -342,7 +347,7 @@ function detectLang(snippet, options) {
 		return index < linesOfCode.length / 10;
 	}
 
-	if (opts.heuristic && linesOfCode.length >= 500) {
+	if (opts.heuristic && linesOfCode.length > 500) {
 		linesOfCode = linesOfCode.filter(function(lineOfCode, index) {
 			if (nearTop(index)) {
 				return true;

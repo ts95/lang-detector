@@ -42,7 +42,7 @@ var _ = require('underscore');
  * -1 = Penalty point:  Does not match a given language.
  * Rare:
  * -50 = Bonus penalty points: Only used when two languages are mixed together,
- *  and one has a higher presence over the other one.
+ *  and one has a higher precedence over the other one.
  */
 var languages = {
 	'JavaScript': [
@@ -57,7 +57,7 @@ var languages = {
 		// !== operator
 		{ pattern: /!==/g, points: 1 },
 		// Function definition
-		{ pattern: /function(( )+[\$\w]+\(.*\)|( )*\(.*\))/g, points: 1 },
+		{ pattern: /function(( )+[\$\w]+( )*\(.*\)|( )*\(.*\))/g, points: 1 },
 		// null keyword
 		{ pattern: /null/g, points: 1 },
 		// (else )if statement
@@ -99,6 +99,8 @@ var languages = {
 		{ pattern: /new \w+/, points: -1 },
 		// Single quote multicharacter string
 		{ pattern: /'.{2,}'/, points: -1 },
+		// JS variable declaration
+		{ pattern: /var( )+\w+( )*=?/, points: -1 },
 	],
 
 	'C++': [
@@ -217,7 +219,7 @@ var languages = {
 		// Properties
 		{ pattern: /[a-z\-]+=("|').+("|')/g, points: 2 },
 		// PHP tag (This is a rare case where a lot of penalty points are needed.)
-		{ pattern: /<\?php/, points: -50, nearTop: true },
+		{ pattern: /<\?php/, points: -50 },
 	],
 
 	'CSS': [
@@ -266,11 +268,11 @@ var languages = {
 		// Go print
 		{ pattern: /fmt\.Print(f|ln)?\(.*\)/, points: 2 },
 		// function
-		{ pattern: /func( )*\w+( )*\(.*\)( )*{/, points: 2 },
+		{ pattern: /func(( )+\w+( )*)?\(.*\).*{/, points: 2 },
 		// variable initialisation
 		{ pattern: /\w+( )*:=( )*.+[^;\n]/, points: 2 },
 		// if/else if
-		{ pattern: /(} else )?if.+{/, points: 2 },
+		{ pattern: /(}( )*else( )*)?if[^\(\)]+{/, points: 2 },
 		// var/const declaration
 		{ pattern: /(var|const)( )+\w+( )+[\w\*]+(\n|( )*=|$)/, points: 2 },
 		// public access on package
@@ -283,15 +285,15 @@ var languages = {
 
 	'PHP': [
 		// PHP tag
-		{ pattern: /<\?php/, points: 2, nearTop: true },
+		{ pattern: /<\?php/, points: 2 },
 		// PHP style variables.
 		{ pattern: /\$\w+/, points: 2 },
 		// use Something\Something;
 		{ pattern: /use( )+\w+(\\\w+)+( )*;/, points: 2, nearTop: true },
 		// arrow
 		{ pattern: /\$\w+\->\w+/, points: 2 },
-		// require
-		{ pattern: /require( )+'.+\.php'( )*;/, points: 2, nearTop: true },
+		// require/include
+		{ pattern: /(require|include)(_once)?( )*\(?( )*('|").+\.php('|")( )*\)?( )*;/, points: 2 },
 		// echo 'something';
 		{ pattern: /echo( )+('|").+('|")( )*;/, points: 1 },
 		// NULL constant
@@ -344,7 +346,7 @@ function detectLang(snippet, options) {
 		return index < linesOfCode.length / 10;
 	}
 
-	if (opts.heuristic && linesOfCode.length >= 500) {
+	if (opts.heuristic && linesOfCode.length > 500) {
 		linesOfCode = linesOfCode.filter(function(lineOfCode, index) {
 			if (nearTop(index)) {
 				return true;
