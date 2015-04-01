@@ -40,21 +40,24 @@ var _ = require('underscore');
  *  2 = Bonus points:   Almost unique to a given language.
  *  1 = Regular point:  Not unique to a given language.
  * -1 = Penalty point:  Does not match a given language.
+ * Rare:
+ * -50 = Bonus penalty points: Only used when two languages are mixed together,
+ *  and one has a higher presence over the other one.
  */
 var languages = {
 	'JavaScript': [
 		// undefined keyword
 		{ pattern: /undefined/g, points: 2 },
-		// Function definition
-		{ pattern: /function( )*(\w+( )*)?\(.+\)/g, points: 2 },
 		// console.log('ayy lmao')
 		{ pattern: /console\.log( )*\(/, points: 2 },
-		// === operator
-		{ pattern: /===/g, points: 2 },
-		// !== operator
-		{ pattern: /!==/g, points: 2 },
 		// Variable declaration
 		{ pattern: /var( )+\w+( )*=?/, points: 2 },
+		// === operator
+		{ pattern: /===/g, points: 1 },
+		// !== operator
+		{ pattern: /!==/g, points: 1 },
+		// Function definition
+		{ pattern: /function(( )+[\$\w]+\(.*\)|( )*\(.*\))/g, points: 1 },
 		// null keyword
 		{ pattern: /null/g, points: 1 },
 		// (else )if statement
@@ -104,7 +107,7 @@ var languages = {
 		// #include <whatever.h>
 		{ pattern: /#include( )*(<|")\w+(\.h)?(>|")/, points: 2, nearTop: true },
 		// using namespace something
-		{ pattern: /using( )*namespace( )*.+( )*;/, points: 2, nearTop: true },
+		{ pattern: /using( )+namespace( )+.+( )*;/, points: 2, nearTop: true },
 		// template declaration
 		{ pattern: /template( )*<.*>/, points: 2 },
 		// std
@@ -213,6 +216,8 @@ var languages = {
 		{ pattern: /<[a-z0-9]+(( )*[\w]+=('|").+('|")( )*)?>.*<\/[a-z0-9]+>/g, points: 2 },
 		// Properties
 		{ pattern: /[a-z\-]+=("|').+("|')/g, points: 2 },
+		// PHP tag (This is a rare case where a lot of penalty points are needed.)
+		{ pattern: /<\?php/, points: -50, nearTop: true },
 	],
 
 	'CSS': [
@@ -224,7 +229,7 @@ var languages = {
 
 	'Ruby': [
 		// require/include
-		{ pattern: /(require|include)( )*'\w+(\.rb)?'/, points: 2, nearTop: true },
+		{ pattern: /(require|include)( )+'\w+(\.rb)?'/, points: 2, nearTop: true },
 		// Function definition
 		{ pattern: /def( )+\w+( )*(\(.+\))?( )*\n/, points: 2 },
 		// Instance variables
@@ -274,6 +279,37 @@ var languages = {
 		{ pattern: /nil/, points: 1 },
 		// Single quote multicharacter string
 		{ pattern: /'.{2,}'/, points: -1 },
+	],
+
+	'PHP': [
+		// PHP tag
+		{ pattern: /<\?php/, points: 2, nearTop: true },
+		// PHP style variables.
+		{ pattern: /\$\w+/, points: 2 },
+		// use Something\Something;
+		{ pattern: /use( )+\w+(\\\w+)+( )*;/, points: 2, nearTop: true },
+		// arrow
+		{ pattern: /\$\w+\->\w+/, points: 2 },
+		// require
+		{ pattern: /require( )+'.+\.php'( )*;/, points: 2, nearTop: true },
+		// echo 'something';
+		{ pattern: /echo( )+('|").+('|")( )*;/, points: 1 },
+		// NULL constant
+		{ pattern: /NULL/, points: 1 },
+		// new keyword
+		{ pattern: /new( )+((\\\w+)+|\w+)(\(.*\))?/, points: 1 },
+		// Function definition
+		{ pattern: /function(( )+[\$\w]+\(.*\)|( )*\(.*\))/g, points: 1 },
+		// (else)if statement
+		{ pattern: /(else)?if( )+\(.+\)/, points: 1 },
+		// scope operator
+		{ pattern: /\w+::\w+/, points: 1 },
+		// === operator
+		{ pattern: /===/g, points: 1 },
+		// !== operator
+		{ pattern: /!==/g, points: 1 },
+		// C/JS style variable declaration.
+		{ pattern: /(^|\s)(var|char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
 	],
 
 	'Unknown': [],

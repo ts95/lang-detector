@@ -20,6 +20,7 @@ npm install lang-detector
 * CSS
 * Ruby
 * Go
+* PHP
 
 ## Usage
 ```JavaScript

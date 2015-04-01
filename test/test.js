@@ -69,6 +69,14 @@ describe('fizzbuzz', function() {
 		});
 	});
 
+	it('should detect PHP', function(done) {
+		readFizzBuzzFile('.php', function(err, code) {
+			if (err) throw err;
+			assert.equal('PHP', detectLang(code));
+			done();
+		});
+	});
+
 });
 
 describe('big files', function() {
@@ -200,6 +208,11 @@ describe('hello world', function() {
 
 	it('should detect Go', function(done) {
 		assert.equal('Go', detectLang('fmt.Println("Hello world")'));
+		done();
+	});
+
+	it('should detect PHP', function(done) {
+		assert.equal('PHP', detectLang('echo "Hello world";'));
 		done();
 	});
 
