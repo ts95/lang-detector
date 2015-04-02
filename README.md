@@ -1,14 +1,10 @@
 lang-detector
 =====
+[![NPM](https://nodei.co/npm/lang-detector.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/lang-detector/)
 A fast and small library for detecting the programming language of a code snippet. 
 Can be used for strings of code spanning multiple thousand lines.
 
 This library should only be used if you don't have anything else to go by to determine the language of the code, like a file extension.
-
-## Install
-```Shell
-npm install lang-detector
-```
 
 ## Detectable languages
 * JavaScript

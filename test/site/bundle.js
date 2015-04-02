@@ -11156,8 +11156,6 @@ return jQuery;
 var $ = require('jquery');
 var detectLang = require('../../index');
 
-console.log($('#btn'));
-
 $('#btn').click(function(e) {
 	var detection = detectLang($('#input').val(), { statistics: true });
 	var parts = [];
