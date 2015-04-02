@@ -52,15 +52,19 @@ var languages = {
 		// console.log('ayy lmao')
 		{ pattern: /console\.log( )*\(/, points: 2 },
 		// Variable declaration
-		{ pattern: /var( )+\w+( )*=?/, points: 2 },
+		{ pattern: /(var|const|let)( )+\w+( )*=?/, points: 2 },
+		// Array/Object declaration
+		{ pattern: /(('|").+('|")( )*|\w+):( )*[{\[]/, points: 2 },
 		// === operator
 		{ pattern: /===/g, points: 1 },
 		// !== operator
 		{ pattern: /!==/g, points: 1 },
 		// Function definition
-		{ pattern: /function(( )+[\$\w]+( )*\(.*\)|( )*\(.*\))/g, points: 1 },
+		{ pattern: /function\*?(( )+[\$\w]+( )*\(.*\)|( )*\(.*\))/g, points: 1 },
 		// null keyword
 		{ pattern: /null/g, points: 1 },
+		// lambda expression
+		{ pattern: /\(.*\)( )*=>( )*.+/, points: 1 },
 		// (else )if statement
 		{ pattern: /(else )?if( )+\(.+\)/, points: 1 },
 		// while loop
@@ -69,6 +73,8 @@ var languages = {
 		{ pattern: /(^|\s)(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
 		// pointer
 		{ pattern: /(\w+)( )*\*( )*\w+/, points: -1 },
+		// HTML <script> tag
+		{ pattern: /<(\/)?script( type=('|")text\/javascript('|"))?>/, points: -50 },
 	],
 
 	'C': [
@@ -110,7 +116,7 @@ var languages = {
 		// #include <whatever.h>
 		{ pattern: /#include( )*(<|")\w+(\.h)?(>|")/, points: 2, nearTop: true },
 		// using namespace something
-		{ pattern: /using( )+namespace( )+.+( )*;/, points: 2, nearTop: true },
+		{ pattern: /using( )+namespace( )+.+( )*;/, points: 2 },
 		// template declaration
 		{ pattern: /template( )*<.*>/, points: 2 },
 		// std
@@ -219,14 +225,14 @@ var languages = {
 		{ pattern: /<[a-z0-9]+(( )*[\w]+=('|").+('|")( )*)?>.*<\/[a-z0-9]+>/g, points: 2 },
 		// Properties
 		{ pattern: /[a-z\-]+=("|').+("|')/g, points: 2 },
-		// PHP tag (This is a rare case where a lot of penalty points are needed.)
-		{ pattern: /<\?php/, points: -50, nearTop: true },
+		// PHP tag
+		{ pattern: /<\?php/, points: -50 },
 	],
 
 	'CSS': [
 		// Properties
 		{ pattern: /[a-z\-]+:(?!:).+;/, points: 2 },
-		// <style> tag from HTML (This is a rare case where a lot of penalty points are needed.)
+		// <style> tag from HTML
 		{ pattern: /<(\/)?style>/, points: -50 },
 	],
 
@@ -273,7 +279,7 @@ var languages = {
 		// variable initialisation
 		{ pattern: /\w+( )*:=( )*.+[^;\n]/, points: 2 },
 		// if/else if
-		{ pattern: /(} else )?if.+{/, points: 2 },
+		{ pattern: /(}( )*else( )*)?if[^\(\)]+{/, points: 2 },
 		// var/const declaration
 		{ pattern: /(var|const)( )+\w+( )+[\w\*]+(\n|( )*=|$)/, points: 2 },
 		// public access on package
@@ -286,15 +292,15 @@ var languages = {
 
 	'PHP': [
 		// PHP tag
-		{ pattern: /<\?php/, points: 2, nearTop: true },
+		{ pattern: /<\?php/, points: 2 },
 		// PHP style variables.
 		{ pattern: /\$\w+/, points: 2 },
 		// use Something\Something;
 		{ pattern: /use( )+\w+(\\\w+)+( )*;/, points: 2, nearTop: true },
 		// arrow
 		{ pattern: /\$\w+\->\w+/, points: 2 },
-		// require
-		{ pattern: /require( )+'.+\.php'( )*;/, points: 2, nearTop: true },
+		// require/include
+		{ pattern: /(require|include)(_once)?( )*\(?( )*('|").+\.php('|")( )*\)?( )*;/, points: 2 },
 		// echo 'something';
 		{ pattern: /echo( )+('|").+('|")( )*;/, points: 1 },
 		// NULL constant
@@ -394,10 +400,7 @@ function detectLang(snippet, options) {
 		for (var result of results) {
 			statistics[result.language] = result.points;
 		}
-		return {
-			detected: bestResult.language,
-			statistics: statistics,
-		};
+		return { detected: bestResult.language, statistics: statistics };
 	}
 
 	return bestResult.language;
