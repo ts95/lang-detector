@@ -19,6 +19,11 @@ This library should only be used if you don't have anything else to go by to det
 * Go
 * PHP
 
+## Install
+```Shell
+npm install lang-detector --save
+```
+
 ## Usage
 ```JavaScript
 /**
@@ -49,7 +54,7 @@ detectLang('Hello world.', { statistics: true })
                     "Unknown": 1
                 }
             } 
-    */
+     */
 ```
 
 ## Unit tests
