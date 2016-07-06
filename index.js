@@ -103,6 +103,8 @@ var languages = {
 		{ pattern: /(printf|puts)( )*\(.+\)/, points: 1 },
 		// new Keyword from C++
 		{ pattern: /new \w+/, points: -1 },
+		// new Keyword from Java
+		{ pattern: /new [A-Z]\w*( )*\(.+\)/, points: 2 },
 		// Single quote multicharacter string
 		{ pattern: /'.{2,}'/, points: -1 },
 		// JS variable declaration
