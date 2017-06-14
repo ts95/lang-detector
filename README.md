@@ -5,6 +5,8 @@ A fast and small library for detecting the programming language of a code snippe
 Can be used for strings of code spanning multiple thousand lines.
 
 This library should only be used if you don't have anything else to go by to determine the language of the code, like a file extension.
+## Demo 
+[Here](https://hosein2398.github.io/lang-detect/) you can see demo of this project.
 
 ## Detectable languages
 * JavaScript
