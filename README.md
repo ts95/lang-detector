@@ -2,6 +2,8 @@ lang-detector
 =====
 [![NPM](https://nodei.co/npm/lang-detector.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/lang-detector/)
 
+[![Build Status](https://travis-ci.org/hosein2398/lang-detector.svg?branch=master)
+
 A fast and small library for detecting the programming language of a code snippet. 
 Can be used for strings of code spanning multiple thousand lines.
 
