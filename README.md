@@ -1,4 +1,4 @@
-lang-detector  [![Build Status](https://travis-ci.org/hosein2398/lang-detector.svg?branch=master)](https://travis-ci.org/hosein2398/lang-detector) [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
+lang-detector  [![Build Status](https://travis-ci.org/hosein2398/lang-detector.svg?branch=master)](https://travis-ci.org/hosein2398/lang-detector) [![npm downloads](https://img.shields.io/npm/dt/lang-detector.svg)](https://www.npmjs.com/package/lang-detector) [![Software License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 =====
 
 [![NPM](https://nodei.co/npm/lang-detector.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/lang-detector/)
