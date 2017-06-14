@@ -1,6 +1,5 @@
-lang-detector
+lang-detector  [![Build Status](https://travis-ci.org/hosein2398/lang-detector)](https://travis-ci.org/hosein2398/lang-detector.svg?branch=master)
 =====
-[![Build Status](https://travis-ci.org/hosein2398/lang-detector.svg?branch=master)](https://travis-ci.org/hosein2398/lang-detector.svg?branch=master)
 
 [![NPM](https://nodei.co/npm/lang-detector.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/lang-detector/)
 
