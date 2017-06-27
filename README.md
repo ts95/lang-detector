@@ -1,6 +1,8 @@
 lang-detector  [![Build Status](https://travis-ci.org/hosein2398/lang-detector.svg?branch=master)](https://travis-ci.org/hosein2398/lang-detector) [![npm downloads](https://img.shields.io/npm/v/lang-detector.svg)](https://www.npmjs.com/package/lang-detector) [![Software License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 =====
 
+![lang-detector](https://raw.githubusercontent.com/hosein2398/File-Container/master/Lang-detector/Lang-detector.png)
+
 A fast and small library for detecting the programming language of a code snippet. 
 Can be used for strings of code spanning multiple thousand lines.
 
