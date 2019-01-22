@@ -1,11 +1,14 @@
-lang-detector
+lang-detector  [![Build Status](https://travis-ci.org/hosein2398/lang-detector.svg?branch=master)](https://travis-ci.org/hosein2398/lang-detector) [![npm downloads](https://img.shields.io/npm/v/lang-detector.svg)](https://www.npmjs.com/package/lang-detector) [![Software License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 =====
-[![NPM](https://nodei.co/npm/lang-detector.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/lang-detector/)
+
+![lang-detector](https://raw.githubusercontent.com/hosein2398/File-Container/master/Lang-detector/Lang-detector.png)
 
 A fast and small library for detecting the programming language of a code snippet. 
 Can be used for strings of code spanning multiple thousand lines.
 
 This library should only be used if you don't have anything else to go by to determine the language of the code, like a file extension.
+## Demo 
+[Here](https://hosein2398.github.io/lang-detect/) you can see demo of this project.
 
 ## Detectable languages
 * JavaScript

@@ -398,9 +398,13 @@ function detectLang(snippet, options) {
 
 	if (opts.statistics) {
 		var statistics = {};
-		for (var result of results) {
-			statistics[result.language] = result.points;
+		for (var result in results) {
+			statistics.push([ results[result].language , results[result].points]);
 		}
+
+		statistics.sort(function (a, b) {
+			return b[1] - a[1];
+		});
 		return { detected: bestResult.language, statistics: statistics };
 	}
 
