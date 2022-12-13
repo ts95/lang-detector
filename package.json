@@ -29,15 +29,11 @@
     "url": "https://github.com/ts95/lang-detector/issues"
   },
   "homepage": "https://github.com/ts95/lang-detector",
-  "dependencies": {
-    "underscore": "^1.8.2"
-  },
-  "browserDependencies": {
-    "underscore": "^1.8.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "jquery": "^2.1.3",
     "mocha": "^2.2.1",
+    "underscore": "^1.8.2",
     "webpack": "^3.0.0"
   }
 }
